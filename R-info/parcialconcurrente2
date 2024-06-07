@@ -1,0 +1,89 @@
+programa parcialconcurrente2
+procesos
+  proceso gouno
+  comenzar
+    EnviarMensaje(V,robot1)
+    EnviarMensaje(F,robot2)
+    EnviarMensaje(F,robot3)
+    EnviarMensaje(F,robot4)
+  fin
+  proceso godos
+  comenzar
+    EnviarMensaje(V,robot2)
+    EnviarMensaje(F,robot1)
+    EnviarMensaje(F,robot3)
+    EnviarMensaje(F,robot4)
+  fin
+  proceso gotres
+  comenzar
+    EnviarMensaje(V,robot3)
+    EnviarMensaje(F,robot1)
+    EnviarMensaje(F,robot2)
+    EnviarMensaje(F,robot4)
+  fin
+  proceso gocuatro
+  comenzar
+    EnviarMensaje(V,robot4)
+    EnviarMensaje(F,robot1)
+    EnviarMensaje(F,robot2)
+    EnviarMensaje(F,robot3)
+  fin
+  proceso juntarflor
+  comenzar
+    si HayFlorEnLaEsquina
+      tomarFlor
+  fin
+areas
+  ciudad : AreaC(1,1,100,100) 
+robots
+  robot tipo0
+  variables
+    quien:numero
+  comenzar
+    repetir 5
+      Random(quien,1,4)
+      si(quien = 1)
+        gouno
+      sino 
+        si(quien = 2)
+          godos
+        sino
+          si(quien = 3)
+            gotres
+          sino
+            gocuatro    
+  fin
+  robot limpiador
+  variables 
+    hacer:boolean
+    ca,av:numero
+  comenzar
+    ca:=PosCa
+    av:=PosAv
+    repetir 5
+      RecibirMensaje(hacer,jefe)
+      si(hacer = V)
+        BloquearEsquina(50,50)
+        Pos(50,50)
+        juntarflor
+        Pos(av,ca)      
+        LiberarEsquina(50,50)
+  fin
+variables
+  jefe:tipo0
+  robot1:limpiador
+  robot2:limpiador
+  robot3:limpiador
+  robot4:limpiador  
+comenzar
+  AsignarArea(jefe,ciudad)
+  AsignarArea(robot1,ciudad)
+  AsignarArea(robot2,ciudad)
+  AsignarArea(robot3,ciudad)
+  AsignarArea(robot4,ciudad)
+  Iniciar(jefe,1,1)
+  Iniciar(robot1,2,2)
+  Iniciar(robot2,3,3)
+  Iniciar(robot3,4,4)
+  Iniciar(robot4,5,5)
+fin

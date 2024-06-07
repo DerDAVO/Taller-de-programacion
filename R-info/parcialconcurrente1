@@ -1,0 +1,59 @@
+programa parcialconcurrente1
+procesos 
+  proceso juntarflores(ES f:numero)
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor      
+      f:= f + 1
+  fin
+  proceso juntarpapeles(ES p:numero)
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+      p:= p + 1 
+  fin
+areas
+  ciudad : AreaC(1,1,100,100)
+robots
+  robot robotino
+  variables
+    av,ca,cant,otrocant,soy:numero
+  comenzar
+    cant:= 0
+    ca:= PosCa
+    av:= PosAv
+    BloquearEsquina(50,50)
+    Pos(50,50)
+    si (av = 2) & (ca = 2)
+      soy:=1
+      juntarpapeles(cant)
+    sino
+      si(av = 3) & (ca = 3)
+        soy:=2
+        juntarflores(cant)
+    Pos(av,ca)
+    LiberarEsquina(50,50)
+    si (soy = 1)
+      EnviarMensaje(cant,robot2)
+      RecibirMensaje(otrocant,robot2)
+    sino
+      si(soy = 2)
+        EnviarMensaje(cant,robot1)
+        RecibirMensaje(otrocant,robot1)
+    si (cant > otrocant)
+      Informar('la_cantidad_fue_',cant)
+      derecha
+      Pos(1,5)
+      repetir cant
+        mover  
+  fin
+variables
+  robot1:robotino
+  robot2:robotino
+comenzar
+  AsignarArea(robot1,ciudad)
+  AsignarArea(robot2,ciudad)
+  Iniciar(robot1,2,2)
+  Iniciar(robot2,3,3)
+fin
+

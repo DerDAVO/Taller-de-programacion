@@ -1,0 +1,64 @@
+programa PC-ejercicio1
+procesos
+  proceso junatarflores(ES f:numero)
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      f:=f+1
+  fin
+  proceso hacer(ES f:numero)
+  variables
+    ca1,av1,ca2,av2:numero
+  comenzar
+    ca1:=PosCa
+    av1:=PosAv
+    repetir 3
+      Random(ca2,1,20)
+      Random(av2,1,20)
+      Pos(av,ca)
+      juntarflores(f)
+      Pos(av1,ca1)
+  fin
+  proceso fuente(E av:numero;E ca:numero)
+  comenzar
+    Pos(13,13)
+    tomatPapel
+    Pos(av,ca)
+  fin
+  proceso depositar
+  variables
+    ca1,av1,ca2,av2:numero
+  comenzar
+    ca1:=PosCa
+    av1:=PosAv
+    repetir 5
+      fuente(ca1,av1)
+      Random(av2,1,20)
+      Random(ca2,1,20)
+      Pos(av2,ca2)
+      depositarPapel
+  fin
+robots
+  robot papeleros
+  comenzar
+    depositar
+    EnviarMensaje(1,jefe)
+  fin
+  robot florero
+  variables 
+    f:numero
+  comenzar
+    hacer(f)
+    EnviarMensaje(2,jefe)
+  fin
+  robot jefe
+  variables
+    p,f:numero
+  comenzar
+    RecibirMensaje(id,*)
+    si (id=1)
+      Informar('florerotermino',id)
+    sino   
+      RecibirMensaje(id2,*)
+        Infor
+  fin

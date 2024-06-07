@@ -1,0 +1,94 @@
+programa Enunciado11
+procesos
+  proceso juntarflor
+  comenzar
+    si HayFlorEnLaEsquina
+      tomarFlor
+  fin  
+  proceso juntarpapel
+  comenzar
+    si HayPapelEnLaEsquina
+      tomarPapel
+  fin
+  proceso flores(ES hay:numero)
+  comenzar
+    si HayFlorEnLaEsquina
+      hay:=hay + 1
+  fin
+areas
+  ciudad : AreaC(1,1,100,100)
+robots
+  robot corredor
+  variables
+    id,cant,hay:numero
+  comenzar
+    hay := 0;
+    RecibirMensaje(id,jefe)
+    mientras(PosCa < 20)
+      Random(cant,1,6)
+      repetir cant
+        flores(hay)
+        si ((PosCa + 1) = 20)
+          BloquearEsquina(PosAv,PosCa + 1)
+          mover   
+          flores(hay) 
+          mover      
+          LiberarEsquina(PosAv,PosCa-1)       
+          cant = cant-1
+        sino
+           mover
+    EnviarMensaje(id,jefe)
+    EnviarMensaje(hay,jefe)
+  fin
+  robot limpiador 
+  variables
+    cant:numero
+  comenzar
+    cant=99
+    repetir cant
+      juntarflor
+      juntarpapel
+      si ((PosAv+1) = 15)|((PosAv+1) = 25)
+        BloquearEsquina(PosAv+1,PosCa)
+        mover
+        juntarpapel
+        juntarflor
+        mover
+        LiberarEsquina(PosAv-1,PosCa)
+      sino
+        mover
+    juntarflor
+    juntarpapel
+  fin
+  robot tipo0
+  comenzar
+    hay,id:numero;
+  comenzar
+    EnviarMensaje(1,corredor1)
+    EnviarMensaje(2,corredor2)
+    repetir 2
+      RecibirMensaje(id,*)
+      si id = 1
+        RecibirMensaje(hay,corredor1)
+      sino
+        RecibirMensaje(hay,corredor2) 
+    si id = 1
+      Informar('EL_Corredor_1_junto',hay)
+    sino
+      Informar('EL_Corredor_2_junto',hay)      
+  fin
+variables
+  jefe:tipo0
+  corredor1:corredor
+  corredor2:corredor
+  limpiador:limpiador
+comenzar 
+  AsignarArea(jefe,ciudad)
+  AsignarArea(corredor1,ciudad)
+  AsignarArea(corredor2,ciudad)
+  AsignarArea(limpiador,ciudad)
+  Iniciar(jefe,1,1)
+  Iniciar(corredor1,15,1)
+  Iniciar(corredor2,25,1)
+  Iniciar(limpiador(1,20)
+fin

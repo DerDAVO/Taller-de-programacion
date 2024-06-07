@@ -1,0 +1,108 @@
+programa tarea
+procesos
+  proceso recogerflor
+  comenzar
+    si HayFlorEnLaEsquina
+      tomarFlor
+  fin
+  proceso recogerpapel
+  comenzar
+    si HayPapelEnLaEsquina
+      tomarPapel
+  fin
+  proceso vertical
+  comenzar
+    repetir 9
+      recogerflor
+      mover  
+    recogerflor
+  fin
+  proceso horizontal
+  comenzar
+    repetir 14
+      recogerpapel
+      mover
+    recogerpapel
+  fin
+areas
+  ciudad : AreaC(1,1,100,100)
+robots
+  robot tipo0
+  variables
+    id:numero
+  comenzar
+    EnviarMensaje(1,robotv1)
+    EnviarMensaje(1,roboth1)
+    EnviarMensaje(2,robotv2)
+    EnviarMensaje(2,roboth2)
+    repetir 4
+      RecibirMensaje(id,*)  
+    si id=1
+      Informar('equipo_ganador_es_',2)
+    sino
+      Informar('Equipo_ganador_es_',1)
+  fin 
+  robot tipoV
+  variables
+    id:numero
+  comenzar
+    RecibirMensaje(id,jefe)
+    Informar(id)
+    si id=1
+      BloquearEsquina(5,5)
+      Pos(5,5)
+      recogerflor
+      mover
+      LiberarEsquina(5,5)
+    sino
+      BloquearEsquina(25,5)
+      Pos(25,5)
+      recogerflor
+      mover
+      LiberarEsquina(25,5)
+    vertical
+    EnviarMensaje(id,jefe)
+  fin
+  robot tipoH
+  variables
+    id:numero
+  comenzar
+    RecibirMensaje(id,jefe)
+    Informar(id)
+    si id=1
+      BloquearEsquina(5,5)
+      Pos(5,5)
+      recogerpapel
+      derecha
+      mover
+      LiberarEsquina(5,5)
+    sino
+      BloquearEsquina(25,5)
+      Pos(25,5)
+      recogerpapel
+      derecha
+      mover
+      LiberarEsquina(25,5)
+    horizontal
+    EnviarMensaje(id,jefe)
+  fin
+variables
+  robotv1:tipoV
+  robotv2:tipoV
+  roboth1:tipoH
+  roboth2:tipoH
+  jefe:tipo0  
+comenzar
+  AsignarArea(jefe,ciudad)
+  AsignarArea(robotv1,ciudad)
+  AsignarArea(roboth1,ciudad)
+  AsignarArea(robotv2,ciudad)
+  AsignarArea(roboth2,ciudad)
+  Iniciar(jefe,1,1)
+  Iniciar(robotv1,2,1)
+  Iniciar(roboth1,3,1)
+  Iniciar(robotv2,4,1)
+  Iniciar(roboth2,5,1)
+fin
+
+

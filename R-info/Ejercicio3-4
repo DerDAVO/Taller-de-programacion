@@ -1,0 +1,53 @@
+programa Ejercicio3-4
+procesos
+  proceso juntarflores(ES f:numero)
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      f:=f+1
+  fin
+  proceso rectangulo(ES f:numero)
+  comenzar
+    repetir 2
+      repetir 20  
+        juntarflores(f)
+        mover
+      derecha
+      repetir 15
+        juntarflores(f)
+        mover
+      derecha        
+  fin
+areas
+  area1 : AreaP(15,15,30,35)
+  area2 : AreaP(40,40,55,60)
+  area0 : AreaC(10,10,10,10)
+robots
+  robot tipo1
+  variables
+    f,av,ca:numero    
+  comenzar
+    av:=PosAv
+    ca:=PosCa
+    f:=0
+    rectangulo(f)
+    repetir f
+      BloquearEsquina(10,10)
+      Pos(10,10)
+      depositarFlor
+      Pos(av,ca)
+      LiberarEsquina(10,10)
+  fin
+variables
+  robot1 : tipo1
+  robot2 : tipo1
+comenzar
+  AsignarArea(robot1,area1)
+  AsignarArea(robot2,area2)
+  AsignarArea(robot1,area0)
+  AsignarArea(robot2,area0)
+  Iniciar(robot1,15,15)
+  Iniciar(robot2,40,40)
+fin
+  Iniciar  
+  

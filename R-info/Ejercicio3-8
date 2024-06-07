@@ -1,0 +1,114 @@
+programa ejejrcicio3-7
+procesos 
+  proceso juntarflores(ES f:numero)
+  comenzar
+    si HayFlorEnLaEsquina
+      tomarFlor
+      f:=f+1
+  fin
+  proceso juntar(ES f:numero ; ES Hayf:boolean)
+  variables
+    av,ca:numero
+  comenzar
+    av:=PosAv
+    ca:=PosCa
+    BloquearEsquina(15,23)
+    Pos(15,23)
+    si HayFlorEnLaEsquina
+      juntarflores(f)
+    sino
+      Hayf:=F
+    Pos(av,ca)
+    LiberarEsquina(15,23)
+  fin     
+  
+  proceso max(E f: numero; E fMax: numero; E id: numero; ES idMax: numero)
+  comenzar
+    si f > fMax
+      idMax:= id
+      f:= fMax
+  fin
+  
+  proceso depositar(E id: numero; E idMax:numero)
+  comenzar
+    si id = idMax
+      Pos(20,20)
+      mientras HayFlorEnLaBolsa
+        depositarFlor      
+  fin
+  
+areas
+  area0  : AreaPC(15,23,15,23)
+  area1 :  AreaP(9,9,9,9)
+  area2 : AreaP(11,9,11,9) 
+  area3 : AreaP(13,9,13,9)
+  area4 : AreaPC(20,20,20,20)  
+  areaJ : AreaP(1,1,1,1)
+robots
+  robot tipo1
+  variables
+    f,id,idMax:numero
+    hf:boolean
+  comenzar
+    hf:=V
+    f:=0
+    RecibirMensaje(id,jefe)
+    mientras hf
+      juntar(f,hf)
+    Informar(f)
+    
+    EnviarMensaje(id,jefe)
+    EnviarMensaje(f,jefe)
+    
+    RecibirMensaje(idMax,jefe)
+    depositar(id,idMax)
+  fin
+  
+  robot jefe
+  variables
+    fMax,idMax,id,f: numero
+  comenzar
+    fMax:= -1
+    EnviarMensaje(1,robot1)
+    EnviarMensaje(2,robot2)
+    EnviarMensaje(3,robot3)
+    
+    repetir 3      
+      RecibirMensaje(id,*)
+      si id = 1
+        RecibirMensaje(f,robot1)
+        max(f,fMax,id,idMax)
+      sino
+        si id = 2
+          RecibirMensaje(f,robot2)
+          max(f,fMax,id,idMax)
+        sino
+          RecibirMensaje(f,robot3)
+          max(f,fMax,id,idMax)   
+          
+    EnviarMensaje(idMax,robot1) 
+    EnviarMensaje(idMax,robot2)
+    EnviarMensaje(idMax,robot3)
+  fin
+  
+variables
+  robot1 : tipo1
+  robot2 : tipo1
+  robot3 : tipo1
+  jefe : jefe
+comenzar
+  AsignarArea(robot1,area1)  
+  AsignarArea(robot2,area2)
+  AsignarArea(robot3,area3)
+  AsignarArea(robot1,area0)
+  AsignarArea(robot2,area0)
+  AsignarArea(robot3,area0)
+  AsignarArea(jefe,areaJ)
+  AsignarArea(robot1,area4)
+  AsignarArea(robot2,area4)
+  AsignarArea(robot3,area4)
+  Iniciar(jefe,1,1)
+  Iniciar(robot1,9,9) 
+  Iniciar(robot2,11,9)
+  Iniciar(robot3,13,9)
+fin   

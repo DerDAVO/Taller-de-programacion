@@ -1,0 +1,124 @@
+programa paqrcial12
+procesos
+  proceso juntarflor
+  comenzar
+    si HayFlorEnLaEsquina
+      tomarFlor
+  fin
+  proceso junarflores(ES f:numero)
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      f:=f+1
+  fin
+  proceso juntarpapeles(ES p:numero)
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+      p:=p+1
+  fin
+  proceso comparar(E id,cantp:numero,ES idmax1,idmax2,maxp1,maxp2:numero)
+  comenzar
+    si cantp > maxp
+      maxp2:= maxp1
+      maxp1:= cantp
+      idmax2:= idmax1
+      idmax1:= id      
+    sino
+      si(cantp > maxp2)
+        maxp2:=cantp
+        idmax2:=id
+  fin
+areas
+  area1:AreaPC()
+robots
+  robot tipo0
+  comenzar
+    EnviarMensaje(1,robot1)
+    EnviarMensaje(2,robot2)
+    EnviarMensaje(3,robot3)
+    EnviarMensaje(4,robot4)
+    repetir 3
+      RecibirMensaje(id,*)
+      si id = 1
+        RecibirMensaje(cantp,robot1)
+        comparar(id,cantp,idmax1,idmax2,maxp1,maxp2)
+      sino 
+        si id=2
+          RecibirMensaje(cantp,robot2) 
+          comparar(id,cantp,idmax1,idmax2,maxp1,maxp2)
+        sino
+          RecibirMensaje(cantp,robot3)
+          comparar(id,cantp,idmax1,idmax2,maxp1,maxp2)
+    EnviarMensaje(idmax1,robot1)
+    EnviarMensaje(idmax1,robot2)
+    EnviarMensaje(idmax1,robot3)
+    EnviarMensaje(idmax2,robot1)
+    EnviarMensaje(idmax2,robot2)
+    EnviarMensaje(idmax2,robot3)     
+  fin
+  robot tipo2
+  comenzar
+    derecha
+    repetir 99
+      juntarflor
+      mover
+    juntarflor
+  fin
+  robot tipo1
+  variables
+    hacer:boolean
+    id,quien,p,f,alt,ca,av:numero
+  comenzar
+    ca:=PosCa
+    av:=PosAv
+    p:=0
+    f:=0
+    RecibirMensaje(id,jefe)
+    Random(alt,10,50)
+    repetir 2
+      repetir alt
+        juntapapeles(p)
+        juntarflores(f)
+        mover
+      derecha  
+      repetir 5
+        juntapapeles(p)
+        juntarflores(f)
+        mover
+        derecha
+    EnviarMensaje(id,jefe)
+    EnviarMensaje(p,jefe)
+    repetir 2
+      RecibirMensaje(quien,jefe)
+      si quien = id
+        hacer:=V
+    si hacer = V
+      repetir f
+        BloquearEsquina(61,61)
+        Pos(61,61)
+        depositarFlor
+        Pos(av,ca)
+        LiberarEsquina(61,61) 
+  fin
+variables
+  jefe:tipo0
+  robot1:tipo1
+  robot2:tipo1
+  robot3:tipo1
+  rcalle:tipo2
+comenzar
+  AsignarArea(jefe,areajefe)
+  AsignarArea(robot1,area1)
+  AsignarArea(robot2,area2)
+  AsignarArea(robot3,area3)
+  AsignarArea(rcalle,areacalle)
+  AsigarArea(robot1,areacalle)
+  AsigarArea(robot2,areacalle)
+  AsigarArea(robot3,areacalle)
+  Iniciar(jefe,1,1)
+  Iniciar(rcalle,1,5)
+  Iniciar(robot1,5,1)
+  Iniciar(robot2,15,1)
+  Iniciar(robot3,25,1) 
+fin

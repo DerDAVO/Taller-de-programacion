@@ -1,0 +1,96 @@
+programa parcial17
+procesos
+  proceso juntarflores(ES f:numero)
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      f:= f + 1
+  fin
+  proceso juntarpapeles(ES p:numero)
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+      p:= p + 1 
+  fin
+  proceso moverjuntar(ES p:numero)
+  comenzar
+    juntarpapeles(p)
+    mover
+  fin
+  proceso moverjuntar2(ES f:numero)
+  comenzar
+    juntarflores(f)
+    mover
+  fin  
+areas
+  areajefe : AreaP(1,1,1,1)
+  areaA : AreaPC(2,4,12,24)
+  areaV : AreaPC(16,4,26,24)
+robots
+  robot tipo0
+  variables
+    cantpA,cantfA,cantpV,cantfV:numero
+    totalA,totalV:numero
+  comenzar
+    totalA:=0
+    totalV:=0
+    RecibirMensaje(cantfA,floreroA)
+    RecibirMensaje(cantpA,papeleroA)
+    RecibirMensaje(cantfV,floreroV)
+    RecibirMensaje(cantpV,papeleroV)
+    totalA:= cantfA + cantpA
+    totalV:= cantfV + cantpA
+    si (totalA > totalV)
+      Informar('Ganador_equipo_Azul_con',totalA)
+    sino
+      Informar('Ganador_equipo_Verde_con',totalV)
+  fin
+  robot florero
+  variables
+    f:numero
+  comenzar
+    f:=0
+    derecha
+    repetir 8
+      moverjuntar2(f)
+    BloquearEsquina((PosAv + 1),PosCa)
+    repetir 2
+      moverjuntar2(f)
+    LiberarEsquina((PosAv - 1),PosCa)
+    juntarflores(f)
+    EnviarMensaje(f,jefe)  
+  fin
+  robot papelero
+  variables
+    p:numero
+  comenzar
+    p:=0
+    repetir 7
+      moverjuntar(p)
+    BloquearEsquina(PosAv,PosCa + 1)
+    repetir 2
+      moverjuntar(p)
+    LiberarEsquina(PosAv,(PosCa - 1))
+    repetir 11
+      moverjuntar(p)
+    juntarpapeles(p)
+    EnviarMensaje(p,jefe)
+  fin
+variables
+  jefe:tipo0
+  papeleroA:papelero
+  floreroA:florero
+  papeleroV:papelero
+  floreroV:florero
+comenzar 
+  AsignarArea(jefe,areajefe)
+  AsignarArea(floreroA,areaA)
+  AsignarArea(papeleroA,areaA)
+  AsignarArea(floreroV,areaV)
+  AsignarArea(papeleroV,areaV)
+  Iniciar(jefe,1,1)
+  Iniciar(floreroA,2,12)
+  Iniciar(papeleroA,7,4)
+  Iniciar(floreroV,16,12)
+  Iniciar(papeleroV,21,4)
+fin

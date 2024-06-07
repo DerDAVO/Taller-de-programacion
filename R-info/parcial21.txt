@@ -1,0 +1,85 @@
+programa parcial21
+procesos
+  proceso juntarflores(ES f:numero)
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      f:=f+1
+  fin  
+  proceso juntarpapel
+  comenzar
+    si HayPapelEnLaEsquina
+      tomarPapel
+  fin
+areas
+  cuadrante:AreaPC(10,10,15,15)
+  areajefe:AreaP(5,1,5,1)
+  areaf1:AreaP(1,1,1,1)
+  areaf2:AreaP(2,1,2,1)
+  areap1:AreaP(3,1,3,1)
+  areap2:AreaP(4,1,4,1)
+robots
+  robot tipo0
+  variables
+    totalf,f:numero
+  comenzar
+    totalf:=0
+    repetir 2
+      RecibirMensaje(f,*)
+      totalf:=totalf + f
+    Informar('total_flores_',totalf)   
+  fin
+  robot florero
+  variables
+    f,avo,cao,av,ca:numero
+  comenzar
+    f:=0
+    cao:=PosCa
+    avo:=PosAv
+    repetir 4
+      Random(av,10,15)
+      Random(ca,10,15)
+      BloquearEsquina(av,ca)
+      Pos(av,ca)
+      juntarflores(f)
+      Pos(avo,cao)
+      LiberarEsquina(av,ca)
+    EnviarMensaje(f,jefe)
+  fin
+  robot papelero
+  variables
+    av,ca,avo,cao:numero
+  comenzar
+    cao:=PosCa
+    avo:=PosAv
+    repetir 3
+      Random(av,10,15)
+      Random(ca,10,15)
+      BloquearEsquina(av,ca)
+      Pos(av,ca)
+      juntarpapel
+      Pos(avo,cao)
+      LiberarEsquina(av,ca)
+  fin
+variables
+  jefe:tipo0
+  florero1:florero
+  florero2:florero
+  papelero1:papelero
+  papelero2:papelero
+comenzar
+  AsignarArea(jefe,areajefe)
+  AsignarArea(florero1,areaf1)
+  AsignarArea(florero2,areaf2) 
+  AsignarArea(papelero1,areap1)
+  AsignarArea(papelero2,areap2)  
+  AsignarArea(florero1,cuadrante)
+  AsignarArea(florero2,cuadrante)
+  AsignarArea(papelero1,cuadrante)
+  AsignarArea(papelero2,cuadrante)
+  Iniciar(jefe,5,1)
+  Iniciar(florero1,1,1)
+  Iniciar(florero2,2,1)
+  Iniciar(papelero1,3,1)
+  Iniciar(papelero2,4,1)
+fin

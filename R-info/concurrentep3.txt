@@ -1,0 +1,68 @@
+programa
+procesos
+  proceso junatrflores(ES hf:boolean;ES f:numero)
+  comenzar
+    si HayFlorEnLaEsquina
+      tomarFlor
+      f:= f + 1
+    sino
+      hf:=F
+  fin
+  proceso juntarpapeles(ES hp:boolean;ES p:numero)
+  comenzar
+    si HayFlorEnLaEsquina
+      tomarPapel
+      p:= p + 1
+    sino
+      hp:=F
+  fin
+areas
+  ciudad : AreaC(1,1,100,100)
+robots
+  robot tipo0
+  variables
+    hacer:boolean
+  comenzar
+    hacer:=V
+    EnviarMensaje(1,robot1)
+    EnviarMensaje(2,robot2)
+    EnviarMensaje(3,robot3)
+    EnviarMensaje(4,robot4)
+    mientras hacer = V
+      EnviarMensaje(hacer,robot1)
+      RecibirMensaje(hacer,robot1)
+      EnviarMensaje(hacer,robot2)
+      RecibirMensaje(hacer,robot2)
+      EnviarMensaje(hacer,robot3)
+      RecibirMensaje(hacer,robot3)
+      EnviarMensaje(hacer,robot4)
+      RecibirMensaje(hacer,robot4)
+    RecibirMensaje(id,*)
+  fin
+  robot tipo1 
+  variables
+    av,ca,id,p,f:numero
+    hf,hp:boolean
+  comenzar
+    p:=0
+    f:=0
+    av:=PosAv
+    ca:=PosCa
+    RecibirMensaje(id,jefe)
+    RecibirMensaje(hacer,jefe)
+    mientras hacer = V
+      BloquearEsquina(30,30)
+      Pos(30,30)
+      juntarflores(hf,f)
+      juntarpapeles(hp,p)
+      Pos(av,ca)
+      LiberarEsquina(30,30)
+      si (hf = F)&(hp = F)
+        EnviarMensaje(F,jefe)
+        EnviarMensaje(id,jefe)
+      sino
+        EnviarMensaje(V,jefe)
+      RecibirMensaje(hacer,jefe)
+  fin
+comenzar
+fin

@@ -1,0 +1,77 @@
+programa parcial27
+procesos
+  proceso juntarpapeles(ES p:numero)
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+      p:=p + 1
+  fin
+  proceso juntarflores(ES f:numero)
+  comenzar
+    mietras HayFlorEnLaEsquina
+      tomarFlor
+      f:=f + 1
+  fin
+  proceso despositarobjetos(E avo,cao,p,f:numero)
+  comenzar
+    repetir f 
+      BloquearEsquina(21,21)
+      Pos(21,21)
+      depositarFlor
+      Pos(avo,cao)
+      LiberarEsquina(21,21)
+    repetir p
+      BloquearEsquina(22,22)
+      Pos(22,22)
+      depositarPapel
+      Pos(avo,cao)
+      LiberarEsquina(22,22)
+  fin
+areas
+robots
+  robot tipo1
+  variables
+  comenzar
+    EnviarMensaje(1,robot1)
+    EnviarMensaje(2,robot2)
+    Random(alt,1,20)
+    Random(base,1,20)
+    EnviarMensaje(alt,robot1)
+    EnviarMensaje(alt,robot2)
+    EnviarMensaje(base,robot1)
+    EnviarMensaje(base,robot2)
+    repetir 4
+      RecibirMensaje(obj1,robot1)
+      cant1:=cant1 + obj1
+      RecibirMensaje(obj2,robot2)
+      cant2:=cant2 + obj2
+    si(cant1 > cant2)
+      Informar('junto_mas',1)
+    sino
+      Informar('junto_mas',2)
+  fin
+  robot tipo1
+  variables
+    id,alt,base,f,p:numero
+  comenzar
+    avo:=PosAv
+    cao:=PosCa
+    f:=0
+    p:=0
+    RecibirMensaje(id,jefe)
+    RecibirMensaje(alt,jefe)
+    RecibirMensaje(base,jefe)
+    repetir 2
+      repetir alt
+        juntarflores(f)
+        juntarpapeles(p)
+        mover
+      derecha
+      EnviarMensaje((p + f),jefe)
+      despositarobetos(avo,cao,f,p)
+      repetir base
+        
+  fin
+variables
+comenzar
+fin
